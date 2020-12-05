@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="TB_POST")
+@Table(name="tb_post")
 public class Post {
 
     @Id
@@ -22,7 +22,7 @@ public class Post {
     private String autor;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate data;
+    private LocalDate dataPublicacao;
 
     @NotBlank
     @Lob
@@ -52,12 +52,12 @@ public class Post {
         this.autor = autor;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataPublicacao() {
+        return dataPublicacao;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataPublicacao(LocalDate dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
     }
 
     public String getTexto() {
