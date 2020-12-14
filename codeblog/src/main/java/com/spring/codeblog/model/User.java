@@ -42,9 +42,11 @@ public class User {
     public User getUserLogin(User user, String token){
         User newUser = new User();
 
+        newUser.id = user.getId();
         newUser.nome = user.getNome();
+        newUser.perfil = user.getPerfil();
         newUser.email = user.getEmail();
-        user.token = token;
+        newUser.token = token;
 
         return newUser;
     }

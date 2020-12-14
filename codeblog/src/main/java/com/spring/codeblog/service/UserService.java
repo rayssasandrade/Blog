@@ -1,6 +1,7 @@
 package com.spring.codeblog.service;
 
 import com.spring.codeblog.model.LoginDto;
+import com.spring.codeblog.model.Post;
 import com.spring.codeblog.model.User;
 import com.spring.codeblog.repository.UserRepository;
 import com.spring.codeblog.utils.Authorization;
@@ -8,6 +9,8 @@ import com.spring.codeblog.utils.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -57,4 +60,20 @@ public class UserService {
             throw new Errors(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public User getUserById(long id) {
+        try {
+            Optional<User> user = userRepository.findById(id);
+
+            if (!user.isPresent()) {
+                throw new Errors("Usuário não encontrado !", HttpStatus.NOT_FOUND);
+            }
+            return user.get();
+        } catch (Errors customError) {
+            throw customError;
+        } catch (Exception error) {
+            throw new Errors(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

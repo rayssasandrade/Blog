@@ -48,6 +48,46 @@ public class CodeblogService implements ICodeBlog {
         }
     }
 
+    public Post delete(long id) {
+        try {
+            Post post = getPostById(id);
+
+            codeBlogRepository.deleteById(id);
+
+            return post;
+        } catch (Errors customError) {
+            throw customError;
+        } catch (Exception error) {
+            throw new Errors(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public Post updatePost(long id, Post post) {
+        try {
+            Post postOld = getPostById(id);
+
+            if (post.getTitulo() != null) {
+                postOld.setTitulo(post.getTitulo());
+            }
+
+            if (post.getAutor() != null) {
+                postOld.setAutor(post.getAutor());
+            }
+
+            if (post.getTexto() != null) {
+                postOld.setTexto(post.getTexto());
+            }
+
+            codeBlogRepository.save(postOld);
+
+            return postOld;
+        } catch (Errors customError) {
+            throw customError;
+        } catch (Exception error) {
+            throw new Errors(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Override
     public Post save(Post post) {
         try {

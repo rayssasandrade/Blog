@@ -1,6 +1,7 @@
 package com.spring.codeblog.controller;
 
 import com.spring.codeblog.model.LoginDto;
+import com.spring.codeblog.model.Post;
 import com.spring.codeblog.model.User;
 import com.spring.codeblog.service.UserService;
 import com.spring.codeblog.utils.Response;
@@ -18,21 +19,25 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value = "/user")
-    ResponseEntity<Response<User>> createUser(@Valid @RequestBody User user) throws Exception {
+    ResponseEntity<User> createUser(@Valid @RequestBody User user) throws Exception {
 
-        Response<User> response = new Response<>(true);
-
-        response.setData(userService.criarUsuario(user));
+        User response = userService.criarUsuario(user);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping(value = "/login")
-    ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDto loginDto) throws Exception {
+    ResponseEntity<User> login(@Valid @RequestBody LoginDto loginDto) throws Exception {
 
-        Response<User> response = new Response<>(true);
+        User response = userService.login(loginDto);
 
-        response.setData(userService.login(loginDto));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping(value = "/user/{id}")
+    ResponseEntity<User> getUserById(@PathVariable("id") long id) throws Exception {
+
+        User response = userService.getUserById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

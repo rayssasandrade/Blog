@@ -25,34 +25,43 @@ public class CodeBlogController {
     CodeblogService codeblogService;
 
     @GetMapping(value = "/posts")
-    ResponseEntity<Response<List<Post>>> getPosts() throws Exception {
+    ResponseEntity<List<Post>> getPosts() throws Exception {
 
-        Response<List<Post>> response = new Response<>(true);
-
-        response.setData(codeblogService.getAllPosts());
+        List<Post> response = codeblogService.getAllPosts();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping(value = "/post/{id}")
-    ResponseEntity<Response<Post>> getPostById(@PathVariable("id") long id) throws Exception {
+    ResponseEntity<Post> getPostById(@PathVariable("id") long id) throws Exception {
 
-        Response<Post> response = new Response<>(true);
-
-        response.setData(codeblogService.getPostById(id));
+        Post response = codeblogService.getPostById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
-    @PostMapping(value = "/newpost")
-    ResponseEntity<Response<Post>> savePost(@Valid @RequestBody Post post) throws Exception {
+    @PostMapping(value = "/v1/newpost")
+    ResponseEntity<Post> savePost(@Valid @RequestBody Post post) throws Exception {
 
-        Response<Post> response = new Response<>(true);
-
-        response.setData(codeblogService.save(post));
+        Post response = codeblogService.save(post);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PutMapping(value = "/v1/{id}/updatepost")
+    ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable("id") long id) throws Exception {
+
+        Post response = codeblogService.updatePost(id, post);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping(value = "/v1/{id}/deletepost")
+    ResponseEntity<Post> deletePost(@PathVariable("id") long id) throws Exception {
+
+        Post response = codeblogService.delete(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

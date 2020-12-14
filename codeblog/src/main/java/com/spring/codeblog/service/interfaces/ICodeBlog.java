@@ -8,6 +8,7 @@ public interface ICodeBlog {
 
     List<Post> getAllPosts();
     Post getPostById(long id);
+    Post updatePost(long id, Post post);
     Post save(Post post);
 
 }
